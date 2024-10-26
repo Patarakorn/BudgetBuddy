@@ -15,6 +15,13 @@
       "when": 1723961217171,
       "tag": "0001_loud_jack_power",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729974194448,
+      "tag": "0002_organic_jubilee",
+      "breakpoints": true
     }
   ]
 }
