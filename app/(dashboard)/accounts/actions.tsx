@@ -25,7 +25,7 @@ export const Actions = ({ id }: Props) => {
   const deleteMutation = useDeleteAccount(id);
   const { onOpen } = useOpenAccount();
 
-  const handleDelete = async () => {
+  const handleDel = async () => {
     const ok = await confirm();
 
     if (ok) {
