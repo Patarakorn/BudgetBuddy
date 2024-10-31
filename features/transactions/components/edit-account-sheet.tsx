@@ -5,7 +5,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { AccountForm } from "./account-form";
+import { AccountForm } from "./transaction-form";
 import { FormValue } from "hono/types";
 import { insertAccountSchema } from "@/db/schema";
 import { z } from "zod";
