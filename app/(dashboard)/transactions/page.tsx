@@ -17,7 +17,8 @@ const TransactionsPage = () => {
   const transactionsQuery = useGetTransactions();
   const transactions = transactionsQuery.data || [];
 
-  const isDisabled = transactionsQuery.isLoading || deleteTransactions.isPending;
+  const isDisabled =
+    transactionsQuery.isLoading || deleteTransactions.isPending;
 
   if (transactionsQuery.isLoading) {
     return (
@@ -40,14 +41,16 @@ const TransactionsPage = () => {
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
       <Card className="border-none drop-shadow-sm">
         <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-          <CardTitle className="text-xl line-clamp-1">Transaction history</CardTitle>
+          <CardTitle className="text-xl line-clamp-1">
+            Transaction history
+          </CardTitle>
           <Button onClick={newTransaction.onOpen} size="sm">
             <Plus className="size-4 mr-4" /> Add new
           </Button>
         </CardHeader>
         <CardContent>
           <DataTable
-            filterKey="name"
+            filterKey="payee"
             columns={columns}
             data={transactions}
             onDelete={(row) => {

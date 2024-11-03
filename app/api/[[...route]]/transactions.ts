@@ -98,7 +98,7 @@ const app = new Hono()
         })
         .from(transactions)
         .innerJoin(accounts, eq(transactions.accountId, accounts.id))
-        .where(and(eq(transactions.id, id), eq(accounts.id, auth.userId)));
+        .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)));
 
       if (!data) {
         return c.json({ error: "Not Found" }, 404);
@@ -110,9 +110,12 @@ const app = new Hono()
   .post(
     "/",
     clerkMiddleware(),
-    zValidator("json", insertTransactionSchema.omit({ 
-      id: true, 
-    })),
+    zValidator(
+      "json",
+      insertTransactionSchema.omit({
+        id: true,
+      })
+    ),
     async (c) => {
       const auth = getAuth(c);
       const values = c.req.valid("json");
@@ -150,25 +153,28 @@ const app = new Hono()
       }
 
       const transactionsToDelete = db.$with("transactions_to_delete").as(
-        db.select({ id: transactions.id }).from(transactions)
+        db
+          .select({ id: transactions.id })
+          .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
-          .where(and(
-            inArray(transactions.id, values.ids),
-            eq(accounts.userId, auth.userId)
-          ))
-      )
+          .where(
+            and(
+              inArray(transactions.id, values.ids),
+              eq(accounts.userId, auth.userId)
+            )
+          )
+      );
 
       const data = await db
         .with(transactionsToDelete)
         .delete(transactions)
         .where(
-          inArray(transactions.id, sql`select id from ${transactionsToDelete}`)
+          sql`${transactions.id} IN (SELECT id FROM ${transactionsToDelete})`
         )
         .returning({
           id: transactions.id,
         });
 
-        
       return c.json({ data });
     }
   )
@@ -180,8 +186,8 @@ const app = new Hono()
       z.array(
         insertTransactionSchema.omit({
           id: true,
-        }),
-      ),
+        })
+      )
     ),
     async (c) => {
       const auth = getAuth(c);
@@ -197,11 +203,11 @@ const app = new Hono()
           values.map((value) => ({
             id: createId(),
             ...value,
-          })),
+          }))
         )
         .returning();
 
-        return c.json({ data });
+      return c.json({ data });
     }
   )
   .patch(
@@ -228,20 +234,22 @@ const app = new Hono()
       }
 
       const transactionsToUpdate = db.$with("transactions_to_update").as(
-        db.select({ id: transactions.id }).from(transactions)
+        db
+          .select({ id: transactions.id })
+          .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
-          .where(and(
-            eq(transactions.id, id),
-            eq(accounts.userId, auth.userId)
-          )),
-      )
+          .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)))
+      );
 
       const [data] = await db
         .with(transactionsToUpdate)
         .update(transactions)
         .set(values)
         .where(
-          inArray(transactions.id, sql`(select id from ${transactionsToUpdate})`)
+          inArray(
+            transactions.id,
+            sql`(select id from ${transactionsToUpdate})`
+          )
         )
         .returning();
 
@@ -274,19 +282,21 @@ const app = new Hono()
       }
 
       const transactionsToDelete = db.$with("transactions_to_delete").as(
-        db.select({ id: transactions.id }).from(transactions)
+        db
+          .select({ id: transactions.id })
+          .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
-          .where(and(
-            eq(transactions.id, id),
-            eq(accounts.userId, auth.userId)
-          )),
-      )
+          .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)))
+      );
 
       const [data] = await db
         .with(transactionsToDelete)
         .delete(transactions)
         .where(
-          inArray(transactions.id, sql`(select id from ${transactionsToDelete})`)
+          inArray(
+            transactions.id,
+            sql`(select id from ${transactionsToDelete})`
+          )
         )
         .returning({
           id: transactions.id,

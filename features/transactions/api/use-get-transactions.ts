@@ -8,7 +8,7 @@ export const useGetTransactions = () => {
   const from = params.get("from") || "";
   const to = params.get("to") || "";
   const accountId = params.get("accountId") || "";
-  
+
   const query = useQuery({
     queryKey: ["transactions", { from, to, accountId }],
     queryFn: async () => {
@@ -29,7 +29,6 @@ export const useGetTransactions = () => {
         ...transaction,
         amount: convertAmountFromMiliUnits(transaction.amount),
       }));
-      return data;
     },
   });
 
