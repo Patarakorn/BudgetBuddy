@@ -55,7 +55,7 @@ const TransactionsPage = () => {
     transactionsQuery.isLoading || deleteTransactions.isPending;
 
   const onSubmitImport = async (
-    values: typeof transactionSchema.$inferInsert[],
+    values: (typeof transactionSchema.$inferInsert)[]
   ) => {
     const accountId = await confirm();
 
@@ -113,7 +113,11 @@ const TransactionsPage = () => {
             Transaction history
           </CardTitle>
           <div className="flex flex-col lg:flex-row gap-y-2 items-center gap-x-2">
-            <Button onClick={newTransaction.onOpen} size="sm" className="w-full lg:w-auto">
+            <Button
+              onClick={newTransaction.onOpen}
+              size="sm"
+              className="w-full lg:w-auto"
+            >
               <Plus className="size-4 mr-4" /> Add new
             </Button>
             <UploadButton onUpload={onUpload} />
