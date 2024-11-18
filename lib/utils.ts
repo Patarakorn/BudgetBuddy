@@ -76,7 +76,7 @@ export function formatDateRange(period?: Period) {
 
   if (!period?.to) {
     return `${format(period.from, "LLL dd")} - ${format(
-      period.to,
+      period.to || defaultTo,
       "LLL dd, y"
     )}`;
   }
