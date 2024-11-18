@@ -15,7 +15,6 @@ export function convertAmountToMiliUnits(amount: number) {
 }
 
 export function formatCurrency(value: number) {
-
   return Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -23,10 +22,7 @@ export function formatCurrency(value: number) {
   }).format(value);
 }
 
-export function calculatePercentageChange(
-  current: number,
-  previous: number
-) {
+export function calculatePercentageChange(current: number, previous: number) {
   if (previous === 0) {
     return previous === current ? 0 : 100;
   }
@@ -35,7 +31,7 @@ export function calculatePercentageChange(
 }
 
 export function fillMissingDays(
-  activeDays: { date: Date; income: number; expenses: number;}[],
+  activeDays: { date: Date; income: number; expenses: number }[],
   startDate: Date,
   endDate: Date
 ) {
@@ -46,7 +42,7 @@ export function fillMissingDays(
   const allDays = eachDayOfInterval({ start: startDate, end: endDate });
 
   const transactionsByDay = allDays.map((day) => {
-    const found = activeDays.find((d) => isSameDay(d.date, day))
+    const found = activeDays.find((d) => isSameDay(d.date, day));
 
     if (found) {
       return found;
@@ -60,27 +56,36 @@ export function fillMissingDays(
   });
 
   return transactionsByDay;
-};
+}
 
 type Period = {
   from: string | Date | undefined;
   to: string | Date | undefined;
 };
 
-export function formatDateRange (period?: Period) {
+export function formatDateRange(period?: Period) {
   const defaultTo = new Date();
   const defaultFrom = subDays(defaultTo, 30);
-  
+
   if (!period?.from) {
-    return `${format(defaultFrom, "LLL dd")} - ${format(defaultTo, "LLL dd, y")}`;
+    return `${format(defaultFrom, "LLL dd")} - ${format(
+      defaultTo,
+      "LLL dd, y"
+    )}`;
   }
 
   if (!period?.to) {
-    return `${format(period.from, "LLL dd")} - ${format(period.to, "LLL dd, y")}`;
+    return `${format(period.from, "LLL dd")} - ${format(
+      period.to,
+      "LLL dd, y"
+    )}`;
   }
 
-  return format(period.from, "LLL dd, y");
-};
+  return `${format(period.from, "LLL dd, y")} - ${format(
+    period.to,
+    "LLL dd, y"
+  )}`;
+}
 
 export function formatPercentage(
   value: number,
