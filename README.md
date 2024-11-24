@@ -1,6 +1,6 @@
 # BudgetBuddy
 
-BudgetBuddy is a personal finance manager tailored for college students, designed to help you track expenses, manage budgets, and achieve financial goals.
+[BudgetBuddy](https://budget-buddy-chi-one.vercel.app/) is a personal finance manager tailored for college students, designed to help you track expenses, manage budgets, and achieve financial goals.
 
 ## Features
 
