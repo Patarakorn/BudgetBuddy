@@ -25,7 +25,7 @@ git clone https://github.com/Patarakorn/BudgetBuddy.git
 2. **Install dependencies:**:
 
   ```bash
-   bun install
+  bun install
    ```
 
 Running the development server:
