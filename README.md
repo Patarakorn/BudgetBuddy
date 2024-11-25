@@ -18,9 +18,9 @@
 
 1. **Clone the repository**:
 
-   ```bash
-   git clone https://github.com/Patarakorn/BudgetBuddy.git
-   ```
+```bash
+git clone https://github.com/Patarakorn/BudgetBuddy.git
+```
 
 2. **Install dependencies:**:
 
